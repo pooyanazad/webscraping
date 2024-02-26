@@ -35,7 +35,7 @@ Advanced Features and Scaling
     Deployment: Deploy your Flask application to a cloud platform like Heroku or AWS for public access.
 
 
-Next steps:
+Next steps:</br>
 Version Control and Continuous Integration
 
     Version Control Setup: Initialize a Git repository in your project directory, add your files, and make your first commit. Push your repository to a platform like GitHub or GitLab.
