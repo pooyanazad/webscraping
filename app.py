@@ -50,6 +50,13 @@ def show_quotes():
     quotes = Quote.query.all()
     return jsonify([{'quote': q.quote_text, 'author': q.author} for q in quotes])
 
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
 # Scheduler for automatic scraping
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(func=scrape_quotes, trigger='interval', minutes=30)
