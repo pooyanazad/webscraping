@@ -1,27 +1,18 @@
-
 from flask import Flask, jsonify
 import requests
 from bs4 import BeautifulSoup
+from flask_sqlalchemy import SQLAlchemy
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quotes.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-@app.route('/')
-def home():
-    return "Welcome to the Flask Web Scraping Application!"
+class Quote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    quote_text = db.Column(db.String, nullable=False)
+    author = db.Column(db.String, nullable=False)
 
-@app.route('/scrape')
-def scrape():
-    # Simple web scraping logic
-    url = 'http://quotes.toscrape.com/'  # A simple webpage for scraping quotes
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    # Extracting the first quote from the page
-    quote = soup.find(class_='text').get_text()
-    author = soup.find(class_='author').get_text()
-
-    # Returning the scraped data as JSON
-    return jsonify({'quote': quote, 'author': author})
-
-if __name__ == '__main__':
-    app.run(debug=True)
+db.create_all()
