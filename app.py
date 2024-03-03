@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+
+from flask import Flask, jsonify, request, render_template, url_for
 import requests
 from bs4 import BeautifulSoup
 from flask_sqlalchemy import SQLAlchemy
@@ -17,48 +18,49 @@ class Quote(db.Model):
 
 db.create_all()
 
-def scrape_quotes():
+def scrape_quotes(url='http://quotes.toscrape.com/'):
     try:
-        url = 'http://quotes.toscrape.com/'
         response = requests.get(url)
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             quote = soup.find(class_='text').get_text()
             author = soup.find(class_='author').get_text()
 
-            # Saving the scraped quote to the database
             new_quote = Quote(quote_text=quote, author=author)
             db.session.add(new_quote)
             db.session.commit()
-            print('Quote saved to database:', quote)
+            return {'quote': quote, 'author': author}
         else:
-            print('Failed to retrieve data - Status code:', response.status_code)
+            return {'error': 'Failed to retrieve data - Status code: {}'.format(response.status_code)}
     except Exception as e:
-        print('Error occurred:', e)
+        return {'error': 'An error occurred: {}'.format(e)}
 
 @app.route('/')
 def home():
-    return "Welcome to the Flask Web Scraping Application!"
+    quotes = Quote.query.all()
+    return render_template('index.html', quotes=quotes)
 
-@app.route('/scrape')
+@app.route('/scrape', methods=['POST'])
 def scrape_and_save():
-    scrape_quotes()
-    return "Scraping done and data saved to database."
+    url = request.form.get('url', 'http://quotes.toscrape.com/')
+    result = scrape_quotes(url)
+    if 'error' not in result:
+        return jsonify(result)
+    else:
+        return jsonify(result), 500
 
 @app.route('/quotes')
 def show_quotes():
     quotes = Quote.query.all()
     return jsonify([{'quote': q.quote_text, 'author': q.author} for q in quotes])
 
-# Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
 # Scheduler for automatic scraping
 scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(func=scrape_quotes, trigger='interval', minutes=30)
 scheduler.start()
 
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
+
+if __name__ == '__main__':
+    app.run(debug=True)
