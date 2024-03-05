@@ -1,1 +1,24 @@
-HTML tag
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraping Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <form id="scrapeForm" class="url-form">
+            <input type="text" id="urlInput" placeholder="Enter URL to scrape" required>
+            <button type="submit">Scrape</button>
+        </form>
+        <div id="dataDisplay" class="data-display"></div>
+        <canvas id="dataChart" width="400" height="400"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
