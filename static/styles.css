@@ -1,0 +1,30 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.url-form {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.url-form input {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.url-form button {
+    padding: 10px;
+}
+
+.data-display {
+    margin-bottom: 20px;
+}
