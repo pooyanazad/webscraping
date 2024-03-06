@@ -37,4 +37,4 @@ Advanced Features and Scaling
 For backup db you can add this line in your crontab in every 1AM:</br>
 cp quotes.db quotes_backup.db</br>
 </br>
-You can find me: Pooyan.azadaprvar@gmail.com</br>
+You can find me to share any idea: Pooyan.azadaprvar@gmail.com</br>
