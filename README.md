@@ -1,5 +1,5 @@
 # webscraping
-automatic web scraping project with Flask, I want to create this app in next 20 steps.
+automatic web scraping project with Flask, I Created this app in next 20 step but you see 14 steps here.
 
 
 Initial Setup and Simple Scraper
