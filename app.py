@@ -19,7 +19,7 @@ class Quote(db.Model):
 
 db.create_all()
 
-
+#Scraping function
 def scrape_quotes(url='http://quotes.toscrape.com/'):
     try:
         response = requests.get(url)
