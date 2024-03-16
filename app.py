@@ -53,6 +53,7 @@ def scrape_and_save():
     else:
         return jsonify(result), 500
 
+#result route
 @app.route('/quotes')
 def show_quotes():
     quotes = Quote.query.all()
