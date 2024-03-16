@@ -7,6 +7,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
 
 app = Flask(__name__)
+#config DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quotes.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -17,6 +18,7 @@ class Quote(db.Model):
     author = db.Column(db.String, nullable=False)
 
 db.create_all()
+
 
 def scrape_quotes(url='http://quotes.toscrape.com/'):
     try:
