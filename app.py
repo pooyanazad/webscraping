@@ -37,11 +37,13 @@ def scrape_quotes(url='http://quotes.toscrape.com/'):
     except Exception as e:
         return {'error': 'An error occurred: {}'.format(e)}
 
+#index route
 @app.route('/')
 def home():
     quotes = Quote.query.all()
     return render_template('index.html', quotes=quotes)
 
+#scrape route
 @app.route('/scrape', methods=['POST'])
 def scrape_and_save():
     url = request.form.get('url', 'http://quotes.toscrape.com/')
